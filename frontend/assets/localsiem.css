@@ -1,0 +1,1050 @@
+/*
+  localSIEM: pieces of its own on top of the SOC's visual language (app.css),
+  so the analyst sees the same interface in both.
+*/
+
+/* ---------- brand colour ---------- */
+
+/*
+  The accent is PYMEHackers' red #cc3333 instead of the SOC's green, and the
+  accented texts (localSIEM of the logo, the active tab, the UTC label...)
+  use that same red in both themes, by decision of the user, although it
+  stays under 4.5:1 on the dark backgrounds and on the grey ones of the
+  light theme. What sits on the accent is white (5.1:1; #1a1a1a would be
+  3.4:1).
+  Errors move to a red-orange (hue 16°, between the accent's 0° and the
+  warnings' 38°) so they are not mistaken for the accent; they keep the
+  contrasts of the SOC's error red (4.5:1 on --bg-panel-2 and on --error-bg).
+*/
+:root,
+[data-theme="dark"] {
+  --accent: #cc3333;
+  --accent-text: #cc3333;
+  --accent-soft: rgba(204, 51, 51, 0.3);
+  --text-invert: #ffffff;
+  --error: #ff8052;
+  --error-bg: #533328;
+}
+
+[data-theme="light"] {
+  --accent: #cc3333;
+  --accent-text: #cc3333;
+  --accent-soft: rgba(204, 51, 51, 0.35);
+  --text-invert: #ffffff;
+  --error: #933310;
+  --error-bg: #fbe7e0;
+}
+
+.button-primary,
+.switch-button[aria-pressed="true"] {
+  color: #ffffff;
+}
+
+/*
+  Text on the error colour (unread counter, hovered danger button): dark on
+  the dark theme's (7:1; white would be 2.5:1), white on the light theme's
+  (7.7:1; dark would be 2.3:1).
+*/
+.icon-badge {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .icon-badge,
+[data-theme="light"] .button-danger:hover:not(:disabled) {
+  color: #ffffff;
+}
+
+/* ---------- sign-in ---------- */
+
+/*
+  The sign-in pages are only the form, centred on the page: the logo on top,
+  then the fields and the button at the bottom. No side panel and no toolbar:
+  the sign-in form has the language and the theme under its button.
+*/
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.2rem 1.6rem;
+}
+
+.auth-main {
+  width: 100%;
+  align-items: center;
+  padding: 0;
+}
+
+.auth-logo {
+  align-self: center;
+}
+
+/*
+  The sign-in form (username, password and button), and the step of the code
+  when it only asks for the code, are half as wide as the other sign-in
+  cards. The setup of two-step verification keeps the full width: it puts the
+  QR code next to the text.
+*/
+.auth-card.auth-card-narrow {
+  max-width: 22rem;
+}
+
+.auth-card.auth-card-narrow h2 {
+  font-size: 2.2rem;
+  line-height: 2.8rem;
+  overflow-wrap: anywhere;
+}
+
+/* Language and theme, under the sign-in button. */
+.auth-preferences {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+/*
+  The line between the logo and the menu. The sidebar puts 3.2rem between its
+  children; these margins leave 2.5rem between the logo and the line and
+  between the line and the text of the first item, the same as the separators
+  inside the menu (1.4rem of margin plus the 1.1rem of padding of an item).
+*/
+.sidebar-inner > .nav-separator {
+  margin: -0.7rem 0 -1.8rem;
+}
+
+.noscript {
+  padding: 2rem;
+}
+
+/* ---------- search ---------- */
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-width: 0;
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.search-row .query-box {
+  flex: 1 1 36rem;
+}
+
+.search-row .range-select {
+  width: auto;
+  min-width: 16rem;
+  max-width: 100%;
+}
+
+.query-input {
+  font-family: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.5rem;
+}
+
+.custom-range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 24rem));
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.custom-range > * {
+  min-width: 0;
+}
+
+.search-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.4rem;
+  min-width: 0;
+}
+
+.search-info {
+  margin-left: auto;
+}
+
+.search-help {
+  padding: 1.6rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.search-help .details-list {
+  margin: 1.2rem 0;
+}
+
+.search-help dt.mono {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.search-help dt::after {
+  content: "";
+}
+
+.query-error {
+  padding: 1.2rem 1.6rem;
+  border-radius: 0.5rem;
+  background-color: var(--error-bg);
+  color: var(--text);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.query-caret {
+  margin: 0.8rem 0;
+  font-family: "Ubuntu Mono", ui-monospace, monospace;
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--error);
+}
+
+/* ---------- histogram ---------- */
+
+.histogram {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.1rem;
+  height: 12rem;
+  padding: 0.4rem 0;
+  border-bottom: 0.1rem solid var(--border);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.histogram-bar {
+  flex: 1 1 0;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.histogram-fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  background-color: var(--accent);
+  border-radius: 0.2rem 0.2rem 0 0;
+  opacity: 0.85;
+  overflow: hidden;
+}
+
+.histogram-blocked {
+  width: 100%;
+  background-color: var(--info);
+}
+
+.histogram-bar:hover .histogram-fill,
+.histogram-bar.selected .histogram-fill {
+  opacity: 1;
+  outline: 0.1rem solid var(--text);
+}
+
+.histogram-bar.selected {
+  background-color: var(--accent-soft);
+}
+
+/* ---------- summaries ---------- */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  min-width: 0;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.8rem;
+}
+
+.summary-card .table td {
+  text-align: left;
+}
+
+.summary-card .table td.mono {
+  text-align: right;
+  width: 1%;
+}
+
+.summary-value {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.summary-value .button-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--info);
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- results and request card ---------- */
+
+.results-table .cell-uri {
+  text-align: left;
+  min-width: 18rem;
+  max-width: 48rem;
+  overflow-wrap: anywhere;
+}
+
+.results-table td {
+  overflow-wrap: anywhere;
+}
+
+.source-badge {
+  padding: 0.1rem 0.8rem;
+  font-family: "Ubuntu Mono", ui-monospace, monospace;
+  font-size: 1.2rem;
+}
+
+.source-access { background-color: var(--info-soft); }
+.source-error { background-color: var(--warning-bg); }
+.source-audit { background-color: var(--purple-bg); }
+.source-http { background-color: var(--success-bg); }
+
+.rule-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.rule-chip {
+  padding: 0 0.6rem;
+  border-radius: 0.4rem;
+  background-color: var(--bg-panel-2);
+  font-size: 1.3rem;
+}
+
+.table .rule-chip {
+  white-space: nowrap;
+}
+
+.request-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+  min-width: 0;
+}
+
+.request-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 2.4rem;
+  min-width: 0;
+}
+
+.request-grid > * {
+  min-width: 0;
+}
+
+.pivot-row,
+.table td .request-card .button-row,
+.table td .doctor-fix .button-row {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.record-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.record-block h4 {
+  margin-top: 0.6rem;
+}
+
+.record-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+  min-width: 0;
+}
+
+.raw-block {
+  margin: 0;
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-sunken);
+  font-family: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.3rem;
+  line-height: 1.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 40rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.disclosure summary {
+  cursor: pointer;
+  color: var(--info);
+}
+
+.disclosure[open] summary {
+  margin-bottom: 0.8rem;
+}
+
+/* Rules matched in the request card: the message and the matched data
+   share the width and wrap; the data never stretches the table. */
+.messages-table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+.messages-table .cell-message {
+  min-width: 14rem;
+  overflow-wrap: anywhere;
+}
+
+.messages-table .cell-data {
+  min-width: 18rem;
+  font-family: "Ubuntu Mono", ui-monospace, monospace;
+  font-size: 1.25rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.messages-table .cell-severity {
+  white-space: nowrap;
+}
+
+.callout-note {
+  padding: 1rem 1.4rem;
+  border-left: 0.3rem solid var(--warning);
+  border-radius: 0.4rem;
+  background-color: var(--warning-bg);
+  overflow-wrap: anywhere;
+}
+
+.table tr.expanded-row > td {
+  text-align: left;
+}
+
+/* ---------- alerts ---------- */
+
+.cell-where {
+  min-width: 12rem;
+}
+
+.cell-times {
+  white-space: nowrap;
+}
+
+/* ---------- live ---------- */
+
+.live-filters .query-box {
+  flex: 1 1 36rem;
+}
+
+.live-help {
+  margin-top: 1.2rem;
+}
+
+/* ---------- administration ---------- */
+
+.source-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-value {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 2.4rem;
+  line-height: 3rem;
+  overflow-wrap: anywhere;
+}
+
+.doctor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.doctor-module {
+  margin-top: 0.8rem;
+}
+
+.doctor-check {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 0.5rem;
+  border-left: 0.3rem solid var(--border);
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.doctor-ok { border-left-color: var(--success); }
+.doctor-warning { border-left-color: var(--warning); }
+.doctor-error { border-left-color: var(--error); }
+.doctor-info { border-left-color: var(--info); }
+
+.doctor-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.doctor-fix {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.doctor-fix .raw-block {
+  width: 100%;
+}
+
+.input-small {
+  width: 9rem;
+  max-width: 100%;
+}
+
+.settings-subtitle {
+  margin: 2.4rem 0 1.2rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.secret-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.secret-value {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+textarea.input {
+  min-height: 9rem;
+  resize: vertical;
+  font-family: "Ubuntu Mono", ui-monospace, monospace;
+}
+
+/* ---------- overview ---------- */
+
+.view-intro {
+  margin-bottom: 0.4rem;
+}
+
+.overview-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-card.stat-ok {
+  box-shadow: inset 0.3rem 0 0 var(--success);
+}
+
+.stat-card.stat-warning {
+  box-shadow: inset 0.3rem 0 0 var(--warning);
+}
+
+.module-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.module-strip-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.module-strip-item > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ---------- modules ---------- */
+
+/* Installed modules: one card each, the whole width. */
+.module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+/* A card of the list and the header of the page of a module, laid out the
+   same way, one part under the other: name and switch (.module-head), state,
+   summary, reasons, the notice of a newer version, the counters and the
+   actions. */
+.module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  border-left: 0.4rem solid var(--border);
+  min-width: 0;
+}
+
+.module-card-ok { border-left-color: var(--success); }
+.module-card-warning,
+.module-card-unknown { border-left-color: var(--warning); }
+.module-card-error { border-left-color: var(--error); }
+.module-card-pending { border-left-color: var(--info); }
+.module-card-disabled { border-left-color: var(--border); }
+
+.module-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+.module-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+/* Only in the row of .module-head, next to the switch: there the 24rem are
+   its width. In a column they would be its height (240px, mostly empty). */
+.module-head > .module-title {
+  flex: 1 1 24rem;
+}
+
+.module-title .card-title {
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  overflow-wrap: anywhere;
+}
+
+.module-meta {
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* State of a module: a large pill with a dot, so "on and working" is seen at
+   a glance. */
+.module-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2rem;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  overflow-wrap: anywhere;
+}
+
+.module-state::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.module-state-ok { background-color: var(--success-bg); color: var(--success); }
+.module-state-warning,
+.module-state-unknown { background-color: var(--warning-bg); color: var(--warning); }
+.module-state-error { background-color: var(--error-bg); color: var(--error); }
+.module-state-pending { background-color: var(--info-soft); color: var(--info); }
+.module-state-disabled { background-color: var(--bg-panel-2); color: var(--text-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .module-state-ok::before {
+    animation: module-pulse 2.4s ease-in-out infinite;
+  }
+
+  .module-state-pending::before {
+    animation: module-pulse 0.9s ease-in-out infinite;
+  }
+}
+
+@keyframes module-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 0.4rem var(--accent-soft); }
+}
+
+.module-reasons {
+  margin: 0;
+  padding-left: 1.8rem;
+  font-size: 1.3rem;
+  line-height: 1.9rem;
+  color: var(--text-2);
+  min-width: 0;
+}
+
+/* The repository has a newer version of the module: the notice and Update
+   (or, when this localSIEM cannot install it, what it needs). */
+.module-update {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.6rem;
+  margin: 0;
+  padding: 1rem 1.4rem;
+  border-left: 0.3rem solid var(--info);
+  border-radius: 0.4rem;
+  background-color: var(--info-soft);
+  font-size: 1.3rem;
+  line-height: 1.9rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.module-update > p {
+  flex: 1 1 min(100%, 20rem);
+  margin: 0;
+  min-width: 0;
+}
+
+.module-update > .button {
+  flex: none;
+}
+
+.module-update-blocked {
+  display: block;
+  border-left-color: var(--border);
+  background-color: var(--bg-panel-2);
+  color: var(--text-2);
+}
+
+.module-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.module-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 1.2rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.module-metric dt {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  overflow-wrap: anywhere;
+}
+
+.module-metric dd {
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  overflow-wrap: anywhere;
+}
+
+.module-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* Installable modules: those of the localSIEM-modules repository that are
+   not installed yet (administrators). */
+.catalog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.catalog-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem 1.6rem;
+  padding: 1.2rem 0;
+  border-top: 0.1rem solid var(--border);
+  min-width: 0;
+}
+
+.catalog-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1 1 24rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.catalog-result {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 0.1rem solid var(--border);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* On/off switch: a checkbox with role="switch". */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  min-width: 0;
+  font-weight: 500;
+}
+
+.toggle input {
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 4.6rem;
+  height: 2.6rem;
+  margin: 0;
+  border: 0.1rem solid var(--border);
+  border-radius: 1.3rem;
+  background-color: var(--bg-hover);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.toggle input::after {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.toggle input:checked {
+  border-color: var(--accent);
+  background-color: var(--accent);
+}
+
+.toggle input:checked::after {
+  transform: translateX(2rem);
+  background-color: #ffffff;
+}
+
+.toggle input:focus-visible {
+  outline: 0.2rem solid var(--info);
+  outline-offset: 0.2rem;
+}
+
+.toggle input:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.toggle span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Locked switch: the server lacks what the module needs (Reconfigure, in the
+   page of the module, unlocks it). */
+.toggle-locked,
+.toggle-locked input:disabled {
+  cursor: not-allowed;
+}
+
+.toggle-locked span {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+}
+
+/* Requirements of a module in the header of its page, and the setup hint of
+   its doctor. */
+.module-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.module-requirements > * {
+  min-width: 0;
+}
+
+.module-settings-grid .field-wide {
+  grid-column: 1 / -1;
+}
+
+.module-settings-grid .field,
+.module-settings-grid .field > * {
+  min-width: 0;
+}
+
+.records-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.records {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.record-item {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  align-items: end;
+  gap: 1.2rem;
+  padding: 1.4rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-2);
+  min-width: 0;
+}
+
+.record-item > * {
+  min-width: 0;
+}
+
+.record-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1280px) {
+  .summary-grid,
+  .source-stats,
+  .overview-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .request-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .summary-grid,
+  .source-stats,
+  .overview-stats,
+  .custom-range {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-row .range-select,
+  .search-row .button {
+    flex: 1 1 100%;
+  }
+
+  .search-info {
+    margin-left: 0;
+  }
+
+  .raw-block {
+    padding: 0.8rem;
+    font-size: 1.15rem;
+    line-height: 1.6rem;
+  }
+
+  .results-table .cell-uri {
+    min-width: 0;
+  }
+
+  .messages-table .cell-message,
+  .messages-table .cell-data {
+    min-width: 0;
+  }
+
+  .histogram {
+    height: 9rem;
+  }
+}
+
+/* Sections of a tab as links (Users: accounts and access tokens). */
+.subtabs a.subtab:hover {
+  text-decoration: none;
+  color: var(--text);
+}

@@ -1,0 +1,48 @@
+#!/sbin/openrc-run
+
+name="localsiem"
+description="localSIEM collector (reads the logs, stores the events, sends the alerts to the SOC)"
+supervisor="supervise-daemon"
+command="/opt/localsiem/venv/bin/python"
+command_args="/opt/localsiem/webapp/backend/collector.py"
+command_user="localsiem:localsiem"
+directory="/opt/localsiem/webapp"
+umask="0077"
+no_new_privs="yes"
+respawn_delay=3
+respawn_max=0
+output_log="/opt/localsiem/log/collector.log"
+error_log="/opt/localsiem/log/collector.log"
+# localSIEM must never harm the client's web: low priority and limited memory.
+supervise_daemon_args="--nicelevel 10 --ionice 3"
+rc_cgroup_settings="memory.max 314572800"
+extra_started_commands="reload"
+
+depend() {
+  need net
+  after apache2
+}
+
+start_pre() {
+  local vLine
+  if [ ! -f /opt/localsiem/config/localsiem.env ]; then
+    eerror "Missing /opt/localsiem/config/localsiem.env"
+    return 1
+  fi
+  # Password hashes contain dollar signs, so the file is parsed line by line instead of sourced.
+  while IFS= read -r vLine || [ -n "$vLine" ]; do
+    case "$vLine" in
+      LOCALSIEM_*=*)
+        export "${vLine%%=*}=${vLine#*=}"
+        ;;
+    esac
+  done < /opt/localsiem/config/localsiem.env
+  export PYTHONDONTWRITEBYTECODE=1
+  export MALLOC_ARENA_MAX=2
+}
+
+reload() {
+  ebegin "Reloading ${name}"
+  supervise-daemon "${RC_SVCNAME}" --signal HUP
+  eend $?
+}

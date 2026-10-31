@@ -1,0 +1,37 @@
+[Unit]
+Description=localSIEM collector (reads the logs, stores the events, sends the alerts to the SOC)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=localsiem
+Group=localsiem
+WorkingDirectory=/opt/localsiem/webapp
+EnvironmentFile=/opt/localsiem/config/localsiem.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+# Fewer glibc malloc arenas: each thread would otherwise keep its own and the
+# memory of a burst would not go back to the system.
+Environment=MALLOC_ARENA_MAX=2
+ExecStart=/opt/localsiem/venv/bin/python /opt/localsiem/webapp/backend/collector.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/opt/localsiem/db /opt/localsiem/run /opt/localsiem/log
+# localSIEM must never harm the client's web: if resources are short, localSIEM loses.
+MemoryMax=300M
+CPUQuota=50%
+Nice=10
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target

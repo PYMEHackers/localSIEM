@@ -1,0 +1,39 @@
+[Unit]
+Description=localSIEM web (HTTPS on its own port: search, alerts, administration)
+After=network-online.target localsiem.service
+Wants=network-online.target localsiem.service
+
+[Service]
+Type=simple
+User=localsiem
+Group=localsiem
+WorkingDirectory=/opt/localsiem/webapp
+EnvironmentFile=/opt/localsiem/config/localsiem.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+# Fewer glibc malloc arenas: each thread would otherwise keep its own and the
+# memory of a burst would not go back to the system.
+Environment=MALLOC_ARENA_MAX=2
+ExecStart=/opt/localsiem/venv/bin/python /opt/localsiem/webapp/backend/server.py
+Restart=always
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+# The web always listens on 10443: no capability is needed.
+CapabilityBoundingSet=
+# modules: administrators install modules from the web (Modules › Available
+# modules).
+ReadWritePaths=/opt/localsiem/db /opt/localsiem/run /opt/localsiem/log /opt/localsiem/config /opt/localsiem/modules
+MemoryMax=200M
+CPUQuota=50%
+Nice=10
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target

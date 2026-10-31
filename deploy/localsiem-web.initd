@@ -1,0 +1,41 @@
+#!/sbin/openrc-run
+
+name="localsiem-web"
+description="localSIEM web (HTTPS on its own port: search, alerts, administration)"
+supervisor="supervise-daemon"
+command="/opt/localsiem/venv/bin/python"
+command_args="/opt/localsiem/webapp/backend/server.py"
+command_user="localsiem:localsiem"
+directory="/opt/localsiem/webapp"
+umask="0077"
+no_new_privs="yes"
+respawn_delay=3
+respawn_max=0
+output_log="/opt/localsiem/log/web.log"
+error_log="/opt/localsiem/log/web.log"
+supervise_daemon_args="--nicelevel 10 --ionice 3"
+rc_cgroup_settings="memory.max 209715200"
+
+depend() {
+  need net
+  want localsiem
+  after localsiem
+}
+
+start_pre() {
+  local vLine
+  if [ ! -f /opt/localsiem/config/localsiem.env ]; then
+    eerror "Missing /opt/localsiem/config/localsiem.env"
+    return 1
+  fi
+  # Password hashes contain dollar signs, so the file is parsed line by line instead of sourced.
+  while IFS= read -r vLine || [ -n "$vLine" ]; do
+    case "$vLine" in
+      LOCALSIEM_*=*)
+        export "${vLine%%=*}=${vLine#*=}"
+        ;;
+    esac
+  done < /opt/localsiem/config/localsiem.env
+  export PYTHONDONTWRITEBYTECODE=1
+  export MALLOC_ARENA_MAX=2
+}

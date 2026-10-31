@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-US" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>PYMEHackers localSIEM</title>
+  <link rel="icon" href="/assets/img/logo.svg?v=@v:assets/img/logo.svg@" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/Ubuntu-M.woff2?v=@v:assets/fonts/Ubuntu-M.woff2@" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/app.css?v=@v:assets/app.css@">
+  <link rel="stylesheet" href="/assets/localsiem.css?v=@v:assets/localsiem.css@">
+  <script src="/assets/theme-boot.js?v=@v:assets/theme-boot.js@"></script>
+</head>
+<body data-lang-version="@v:locales@" data-icons="/assets/img/icons.svg?v=@v:assets/img/icons.svg@" data-logo="/assets/img/logo.svg?v=@v:assets/img/logo.svg@">
+  <a class="skip-link" href="#content" data-i18n="common.skip">Skip to content</a>
+
+  <!-- Sign-in pages: /auth/login/, /auth/register/, /auth/recover/. Only the
+       form, centred, with the logo on top (app.js fAuthLogo); the sign-in
+       form has the language and the theme under its button. -->
+  <div class="auth-page" id="auth-root" hidden>
+    <main class="auth-main" id="auth-content"></main>
+  </div>
+
+  <!-- Dashboards: /user/dashboard/<tab>/ and /admin/dashboard/<tab>/ -->
+  <div class="app" id="app-root" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <a class="brand" href="/" id="brand-link">
+          <img src="/assets/img/logo.svg?v=@v:assets/img/logo.svg@" alt="">
+          <span class="brand-text"><span class="brand-name">PYMEHackers</span><span class="brand-product">localSIEM</span></span>
+        </a>
+        <hr class="nav-separator">
+        <nav class="nav" id="nav" aria-orientation="vertical"></nav>
+      </div>
+      <div class="sidebar-bottom">
+        <hr class="nav-separator">
+        <button type="button" class="button button-secondary button-block" id="logout-button"></button>
+      </div>
+    </aside>
+    <div class="sidebar-scrim" id="sidebar-scrim"></div>
+    <div class="main">
+      <div class="mobile-bar">
+        <button type="button" class="icon-button" id="menu-toggle" data-i18n-title="common.menu"></button>
+        <a class="brand" href="/">
+          <img src="/assets/img/logo.svg?v=@v:assets/img/logo.svg@" alt="">
+          <span class="brand-text"><span class="brand-name">PYMEHackers</span><span class="brand-product">localSIEM</span></span>
+        </a>
+      </div>
+      <main class="content" id="content">
+        <header class="page-bar">
+          <div class="page-title-group">
+            <h1 class="page-title" id="page-title">localSIEM</h1>
+          </div>
+          <div class="page-actions">
+            <select class="select select-compact language-select" aria-label="Language" data-i18n-title="common.language"></select>
+            <button type="button" class="icon-button theme-toggle" data-i18n-title="common.toggle_theme"></button>
+            <div class="clock-box" title="UTC"><span>UTC</span><time class="utc-clock">--:--:--</time></div>
+          </div>
+        </header>
+        <div id="view" class="view"></div>
+      </main>
+    </div>
+  </div>
+
+  <noscript><p class="noscript">localSIEM needs JavaScript.</p></noscript>
+  <script src="/assets/common.js?v=@v:assets/common.js@"></script>
+  <script src="/assets/search.js?v=@v:assets/search.js@"></script>
+  <script src="/assets/overview.js?v=@v:assets/overview.js@"></script>
+  <script src="/assets/modules.js?v=@v:assets/modules.js@"></script>
+  <script src="/assets/admin.js?v=@v:assets/admin.js@"></script>
+  <script src="/assets/app.js?v=@v:assets/app.js@"></script>
+</body>
+</html>
